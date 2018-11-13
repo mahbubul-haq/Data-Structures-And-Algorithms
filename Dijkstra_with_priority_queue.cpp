@@ -35,7 +35,6 @@ int main(){
         ///AdjLst[v].push_back(pii(u,w)); - if undirected
     }
 
-
     vi dist(V,INT_MAX);///at first distance of all nodes from source is infinity: there is no path yet.
     priority_queue<pii, vector<pii>, greater<pii> > pq;///sorted increasingly by distance from source;
 
