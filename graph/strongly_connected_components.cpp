@@ -40,7 +40,6 @@ int V,E,dfs_times;
 void tarjan_SCC(int u){
     dfs_num[u]=dfs_low[u]=++dfs_times;
     int siz=AdjLst[u].size();
-
     visited[u]=true;
     Stack.push_back(u);
 
@@ -52,10 +51,8 @@ void tarjan_SCC(int u){
 
         if(visited[v]) dfs_low[u]=min(dfs_low[u],dfs_low[v]);
     }
-
     if(dfs_num[u]==dfs_low[u]){///that means u is a root of SCC
         vi tempvec;
-
         while(true){
             int v=Stack.back(); Stack.pop_back();
             visited[v]=false;
@@ -64,10 +61,8 @@ void tarjan_SCC(int u){
 
             if(v==u) break;
         }
-
         SCC.push_back(tempvec);
     }
-
 }
 
 int main()
@@ -75,9 +70,7 @@ int main()
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int V,E; cin>>V>>E;
-
     AdjLst.assign(V,vi());///vertices are numbered from 0 to V-1
-
 
     for(int i=0;i<E;i++){
         int u,v;
@@ -87,7 +80,6 @@ int main()
 
     dfs_num.assign(V,-1),dfs_low.assign(V,0),visited.assign(V,false);
     dfs_times=0;
-
     for(int i=0;i<V;i++){
         if(dfs_num[i]==-1){
             tarjan_SCC(i);
@@ -102,7 +94,6 @@ int main()
             cout<<SCC[i][j]<<" ";
         }
         cout<<endl;
-
     }
 
     return 0;
