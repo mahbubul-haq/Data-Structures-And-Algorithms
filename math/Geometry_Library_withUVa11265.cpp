@@ -169,7 +169,7 @@ double magnitude_sqr(Vector v){ return v.x*v.x+v.y*v.y; }
 
 double distToLine(Point p,Point a,Point b,Point &c){
     Vector ap=toVec(a,p),ab=toVec(a,b);
-    double u=dot(ap,ap)/magnitude_sqr(ab);
+    double u=dot(ab,ap)/magnitude_sqr(ab);
     c=translate(a,scale(ab,u));
     return dist(p,c);
 }
