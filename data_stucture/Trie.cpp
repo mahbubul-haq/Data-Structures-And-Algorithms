@@ -116,7 +116,7 @@ public:
         fof(i, 0, 26) {
             if (curr->next[i]) del(curr->next[i]);
         }
-        del(curr);
+        delete(curr);
     }
 };
 
