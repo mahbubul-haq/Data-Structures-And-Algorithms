@@ -58,8 +58,8 @@ class SegmentTree{
 
     data make_data(int val){
         data temp;
-        temp.suff=temp.pref=val;
-        temp.ans=temp.sum=val;
+        temp.suff=temp.pref=temp.ans=max(val,0);
+        temp.sum=val;
         return temp;
     }
 
@@ -75,7 +75,6 @@ class SegmentTree{
     void build(int node,int L,int R){
         if(L==R){
             st[node]=make_data(ara[L]);
-            cout<<ara[L]<<" "<<L<<endl;
         }
         else{
             build(left(node),L,(L+R)/2);
@@ -85,14 +84,15 @@ class SegmentTree{
         }
     }
 
-    int query(int node,int L,int R,int i,int j){
-        if(i>R||j<L) return -INF;
-        if(L>=i&&R<=j) return st[node].ans;
+    data query(int node,int L,int R,int i,int j){
+        if(i>R||j<L) return make_data(0);
+        if(L>=i&&R<=j) return st[node];
 
-        int val1=query(left(node),L,(L+R)/2,i,j);
-        int val2=query(right(node),(L+R)/2+1,R,i,j);
 
-        return max(val1,val2);
+        data lef=query(left(node),L,(L+R)>>1,i,j);
+        data rig=query(right(node),((L+R)>>1)+1,R,i,j);
+
+        return combine(lef,rig);
     }
 
     void update(int node,int L,int R,int pos,int value){
@@ -111,10 +111,10 @@ public:
     SegmentTree(vi _ara){
         ara=_ara;
         n=ara.size();
-        st.assign(4*n,data());
+        st.assign(4*n+1,data());
         build(1,0,n-1);
     }
-    int query(int i,int j){ return query(1,0,n-1,i,j);}
+    int query(int i,int j){ return query(1,0,n-1,i,j).ans;}
     void update(int pos,int value){ update(1,0,n-1,pos,value);}
 };
 
@@ -129,6 +129,7 @@ int main()
         int x; cin>>x; vec.pb(x);
     }
     SegmentTree st(vec);
+    //for(auto v: vec) cout<<v<<" "; cout<<endl;
 
     cout<<st.query(0,n-1)<<endl;
     cout<<st.query(4,4)<<endl;
