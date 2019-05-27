@@ -88,13 +88,14 @@ bool check(int N,int pos){  return (bool) (N&(1<<pos));}
 
 class Node{
 public:
-    int key,priority;
+    int key,priority,cnt;
     Node *left,*right;
 };
 
 Node *newNode(int key){
     Node *node=new Node();
     node->key=key;
+    node->cnt=1;
     node->priority=rand()%maxn;
     node->left=node->right=NULL;
     return node;
@@ -108,15 +109,37 @@ Node *Search(Node *node,int key){
 
 Node *leftRotate(Node *node){
     Node *temp=node->right,*t2=temp->left;
+    int lcnt=1;
+    if(node->left) lcnt+=node->left->cnt;
+
     temp->left=node;
     node->right=t2;
+
+
+    if(temp->left){
+        temp->left->cnt= lcnt+ (t2? t2->cnt: 0);
+    }
+    temp->cnt=1;
+    if(temp->left) temp->cnt+=temp->left->cnt;
+    if(temp->right) temp->cnt+=temp->right->cnt;
+
     return temp;
 }
 
 Node *rightRotate(Node *node){
     Node *temp=node->left,*t2=temp->right;
+    int rcnt=1;
+    if(node->right) rcnt+=node->right->cnt;
     temp->right=node;
     node->left=t2;
+
+    if(temp->right){
+        temp->right->cnt= rcnt+ (t2? t2->cnt: 0);
+    }
+    temp->cnt=1;
+    if(temp->left) temp->cnt+=temp->left->cnt;
+    if(temp->right) temp->cnt+=temp->right->cnt;
+
     return temp;
 }
 
@@ -137,6 +160,10 @@ Node *Insert(Node *node,int key){
             node=leftRotate(node);
         }
     }
+
+    node->cnt=1;
+    if(node->left) node->cnt+=node->left->cnt;
+    if(node->right) node->cnt+=node->right->cnt;
 
     return node;
 }
@@ -165,13 +192,20 @@ Node *deleteNode(Node *node,int key){
         node=rightRotate(node);
         node->right=deleteNode(node->right,key);
     }
+
+    if(node) {
+        node->cnt = 1;
+        if (node->left) node->cnt += node->left->cnt;
+        if (node->right) node->cnt += node->right->cnt;
+    }
+
     return node;
 }
 
 void Inorder(Node *node){
     if(node){
         Inorder(node->left);
-        cout<< node->key<<" "<<node->priority;
+        cout<< node->key<<" "<<node->priority<<" "<<node->cnt;
         if(node->left) cout<<" L: "<<node->left->key;
         if(node->right) cout<<" R: "<<node->right->key;
         cout<<endl;
