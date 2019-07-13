@@ -114,7 +114,7 @@ void z_func(string &text,string &pattern, vi &ans, vi &Z){
 
 int main()
 {
-    FI;//FO;
+    //FI;//FO;
     FastIO;//timeInit;
     string text,pattern;
     while(cin>>pattern>>text){
