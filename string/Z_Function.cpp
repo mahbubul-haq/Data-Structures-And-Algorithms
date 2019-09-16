@@ -103,6 +103,9 @@ void z_func(string &text,string &pattern, vi &ans, vi &Z){
         if(i<=r){
             Z[i]=min(r-i+1,Z[i-l]);
         }
+        
+        if(r == n - 1) 
+                continue;///make faster!!
         while(i+Z[i]<n and text[Z[i]]==text[i+Z[i]])
             Z[i]++;
         if(i+Z[i]-1>r)
