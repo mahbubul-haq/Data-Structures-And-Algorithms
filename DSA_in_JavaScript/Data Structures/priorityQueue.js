@@ -1,6 +1,6 @@
 /**
  * Heap based priority queue implementation
- * @funcions top(), pop(), push(), size(), empty()
+ * @funcions top(), pop(), push(), size(), empty(), clear()
  * @constructor PriorityQueue(comparator)
  * Acknowledgement: https://stackoverflow.com/questions/42919469/efficient-way-to-implement-priority-queue-in-javascript
  */
@@ -11,15 +11,28 @@ class PriorityQueue {
         this._comparator = comparator;
     }
 
-    _left = (i) => (i << 1) + 1;
-    _right = (i) => (i << 1) + 2;
-    _parent = (i) => ((i + 1) >>> 1) - 1; // 0 based index
-    _greater = (i, j) => this._comparator(this._heap[i], this._heap[j]); // greater priority
-    _swap = (i, j) => {
-        [this._heap[i], this._heap[j]] = [this._heap[j], this._heap[i]];
-    };
+    _left (i) {
+        return (i << 1) + 1;
+    }
 
-    _heapifyUp = () => {
+    _right (i) {
+        return (i << 1) + 2;
+    }
+
+    _parent (i) {
+        return ((i + 1) >>> 1) - 1;
+    }
+
+    // greater priority
+    _greater (i, j) {
+        return this._comparator(this._heap[i], this._heap[j]);
+    }
+
+    _swap (i, j) {
+        [this._heap[i], this._heap[j]] = [this._heap[j], this._heap[i]];
+    }
+
+    _heapifyUp () {
         let curIndex = this._heap.length - 1;
         while (
             curIndex > 0 &&
@@ -28,9 +41,9 @@ class PriorityQueue {
             this._swap(curIndex, this._parent(curIndex));
             curIndex = this._parent(curIndex);
         }
-    };
+    }
 
-    _heapifyDown = () => {
+    _heapifyDown () {
         let curIndex = 0;
         while (
             (this._left(curIndex) < this._heap.length &&
@@ -48,23 +61,36 @@ class PriorityQueue {
         }
     };
 
-    top = () => this._heap[0];
-    size = () => this._heap.length;
-    empty = () => this._heap.length === 0;
-    push = (...values) => {
-        values.forEach((value) => {
+    top () {
+        return this._heap[0];
+    }
+
+    size () {
+        return this._heap.length;
+    }
+
+    empty () {
+        return this._heap.length === 0;
+    }
+
+    clear () {
+        this._heap = [];
+    }
+
+    push (...values) {
+        values.forEach(value => {
             this._heap.push(value);
             this._heapifyUp();
         });
-    };
+    }
 
-    pop = () => {
+    pop () {
         let poppedValue = this.top();
         this._swap(0, this._heap.length - 1);
         this._heap.pop();
         this._heapifyDown();
         return poppedValue;
-    };
+    }
 };
 
 /**
