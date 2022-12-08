@@ -1,6 +1,6 @@
 /**
  * Heap based priority queue implementation
- * @funcions top(), pop(), push(), size(), empty(), clear()
+ * @methods top(), pop(), push(), size(), empty(), clear()
  * @constructor PriorityQueue(comparator)
  * Acknowledgement: https://stackoverflow.com/questions/42919469/efficient-way-to-implement-priority-queue-in-javascript
  */
